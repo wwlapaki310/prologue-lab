@@ -1,165 +1,226 @@
 # 🏰 PrologueLab
 
-**理系の挑戦を応援する、公募・支援情報ポータル**
+**エンジニア・学生の挑戦を応援する、公募・支援情報ポータル**
 
-*"始まりの一歩、大冒険への扉" - Your First Step into Scientific Challenges*
+*"始まりの一歩、大冒険への扉" - Your First Step into New Challenges*
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Status](https://img.shields.io/badge/status-development-orange.svg)
+![Budget](https://img.shields.io/badge/budget-under%20¥1000%2Fmonth-green.svg)
 
 ## 🎯 プロジェクト概要
 
-PrologueLabは、STEM分野を中心としながらも理系にとらわれず、学生・エンジニア・研究者に向けて「世界へ挑戦する」ような公募情報を掲載する冒険テーマのポータルサービスです。
+PrologueLabは、**無料で参加できる価値ある体験**を中心に、ハッカソン・勉強会・コンテスト・奨学金などの情報を集約するポータルサイトです。[きっかけポータル](https://kikkakeportal.com/)にインスパイアされた、シンプルで実用的なデザインを採用しています。
 
-### 🌟 コンセプト
-- **冒険の始まり**: 無料参加や報酬付きの成長機会を発見
-- **世界への扉**: 海外挑戦や国際的な機会を提供
-- **RPG風UI**: ゲーム感覚で楽しく情報収集できる体験
+### 🌟 重点領域
+- **ハッカソン**: Spajam、JPHacks、技育プロジェクト等
+- **勉強会**: Connpass、TECH PLAY、Doorkeeper
+- **コンテスト**: プログラミング、デザイン、研究コンテスト
+- **奨学金・助成金**: 研究開発資金、海外留学支援
+- **インターンシップ**: 無料で参加できる技術系企業のプログラム
 
-## 🎮 特徴
+### 🚀 特徴
+- **週3回の自動SNS投稿** (Twitter, Instagram, TikTok)
+- **AI powered情報分類・要約**
+- **エンジニア向けTwitter投稿の監視**
+- **予算月1000円以内での運営**
 
-### 🏛️ 冒険者の掲示板
-- 公募情報をRPGの依頼掲示板風にデザイン
-- カテゴリ別の色分けとアイコン表示
-- 難易度レベルと報酬の可視化
+## 🏗️ 技術構成 (確定版)
 
-### 🌍 多様な機会
-- **コンペティション**: プログラミング、デザイン、研究コンテスト
-- **助成金・奨学金**: 研究開発資金、海外留学支援
-- **インターンシップ**: 国内外の技術系企業
-- **ビジネスコンテスト**: スタートアップ支援プログラム
+### 🔥 **Firebase + Vercel 構成**
+**選択理由**: Google製で信頼性高、豊富なドキュメント、大きな無料枠、メンテナンス性良好
 
-### 🤖 スマート機能
-- AI による情報要約と分類
-- 個人の興味に合わせたレコメンド
-- 自動SNS投稿によるリアルタイム更新
-
-## 🏗️ 技術構成
+```mermaid
+graph TB
+    User[👤 ユーザー] --> Vercel[🚀 Vercel Frontend]
+    Vercel --> Firebase[🔥 Firebase]
+    
+    subgraph Firebase Services
+        Auth[🔐 Authentication]
+        Firestore[📂 Firestore DB]
+        Functions[⚡ Cloud Functions]
+        Storage[🗄️ Cloud Storage]
+        Schedule[⏰ Cloud Scheduler]
+    end
+    
+    Functions --> OpenAI[🤖 OpenAI API]
+    Functions --> SNS[📱 SNS APIs]
+    
+    subgraph SNS自動投稿
+        Twitter[🐦 Twitter API]
+        Instagram[📸 Instagram API]  
+        TikTok[🎵 TikTok API]
+    end
+    
+    Schedule --> Functions
+    Functions --> Twitter
+    Functions --> Instagram
+    Functions --> TikTok
+```
 
 ### Frontend
-- **Next.js** / Astro - モダンなWebフレームワーク
-- **Tailwind CSS + shadcn/ui** - レスポンシブデザイン
-- **Markdown/JSON** - 柔軟な情報管理
-- **i18n** - 英語対応
+- **Next.js 14** (App Router) - TypeScript
+- **Tailwind CSS + shadcn/ui** - モダンUI
+- **Zustand** - 軽量状態管理
+- **React Hook Form + Zod** - フォームバリデーション
+- **Framer Motion** - アニメーション
 
-### Backend/API
-- **FastAPI** / Express.js - 高速API開発
-- **Supabase** / Firebase - リアルタイムデータベース
-- **OpenAI API** - 文章要約・情報分類
+### Backend
+- **Firebase Firestore** - NoSQLデータベース
+- **Firebase Authentication** - ユーザー認証
+- **Firebase Cloud Functions** - サーバーレス処理
+- **Firebase Cloud Storage** - ファイル保存
+- **Firebase Cloud Scheduler** - 定期実行
 
-### データ収集
-- **Scrapy + Playwright** - 定期Webクローラー
-- **RSS/API連携** - 外部サービス統合
-- **Claude/ChatGPT** - 非構造化情報の処理
+### データ収集・AI
+- **Puppeteer** - Webスクレイピング
+- **OpenAI API** (gpt-3.5-turbo) - 情報分類・要約
+- **Connpass API** - 勉強会情報取得
+- **Twitter API** - エンジニア投稿監視
 
-### 自動投稿
-- **n8n** / Zapier - ワークフロー自動化
-- **Canva API + FFmpeg** - 動的画像・動画生成
+## 💰 運営コスト (月額1000円以内)
+
+### 無料枠の活用
+- **Firebase**: 無料枠で十分 (初期段階)
+- **Vercel**: 無料枠 (個人プロジェクト)
+- **OpenAI API**: ~¥1,500/月 (使用量次第)
+
+### SNS API戦略
+- **Phase 1**: Twitter API無料枠 + 手動投稿
+- **Phase 2**: IFTTT/Zapier活用 (~¥500/月)
+- **Phase 3**: 収益化後にTwitter API Basic (¥15,000/月)
+
+## 📊 データ収集対象
+
+### 🎯 優先度高
+1. **ハッカソン・コンテスト**
+   - Spajam (年2回)
+   - JPHacks (年1回、学生向け)
+   - 技育プロジェクト
+   - Open Hack U (Yahoo主催)
+
+2. **勉強会プラットフォーム**
+   - Connpass (API利用)
+   - TECH PLAY
+   - Doorkeeper (API利用)
+
+3. **政府・公的機関**
+   - 文科省 (科研費、JST)
+   - 経産省 (IPA)
+   - 外務省 (国際交流)
+
+### 📱 SNS監視
+- **Twitter監視ハッシュタグ**:
+  - #エンジニア転職 #ハッカソン #勉強会
+  - #プログラミング #技育 #開発
+
+## 🎨 UI/UXデザイン
+
+### デザイン方針
+[きっかけポータル](https://kikkakeportal.com/)を参考にした**シンプル実用路線**
+- 情報の見つけやすさ重視
+- RPG要素は控えめ (アイコン・色程度)
+- モバイルファースト
+- 検索・フィルタリング充実
+
+### カード型レイアウト
+```typescript
+interface OpportunityCard {
+  title: string;
+  summary: string;
+  deadline: Date;
+  difficulty: 1 | 2 | 3 | 4 | 5; // 星マーク
+  category: string; // アイコン付き
+  reward?: number; // コイン表示
+  tags: string[];
+  isFree: boolean; // 無料フラグ
+}
+```
+
+## 🚀 開発ロードマップ
+
+### Week 1-2: 基盤構築
+- [ ] Next.js + Firebase プロジェクト初期化
+- [ ] 認証システム実装
+- [ ] 基本UI/コンポーネント作成
+- [ ] Firestore CRUD操作
+
+### Week 3-4: コア機能
+- [ ] 公募情報表示・検索
+- [ ] フィルタリング機能
+- [ ] ユーザー機能 (ブックマーク等)
+- [ ] 管理画面 (手動データ投入)
+
+### Week 5-6: データ収集自動化
+- [ ] Cloud Functions でクローラー
+- [ ] Connpass API連携
+- [ ] OpenAI分類システム
+- [ ] Cloud Scheduler設定
+
+### Week 7-8: SNS連携
+- [ ] 投稿コンテンツ生成 (AI)
+- [ ] 画像自動生成 (Canvas API)
+- [ ] IFTTT/Zapier連携
+- [ ] 投稿スケジューリング
+
+## 📱 SNS自動投稿システム
+
+### 投稿戦略 (週3回)
+- **月曜**: 新着ハッカソン情報
+- **水曜**: 勉強会・イベント情報  
+- **金曜**: 奨学金・助成金情報
+
+### コンテンツ生成フロー
+```mermaid
+graph LR
+    A[新着公募検出] --> B[AI要約生成]
+    B --> C[SNS用文章作成]
+    C --> D[画像自動生成]
+    D --> E[投稿スケジューリング]
+    E --> F[複数SNS投稿]
+```
 
 ## 📁 プロジェクト構成
 
 ```
 prologue-lab/
 ├── apps/
-│   ├── web/          # Next.js フロントエンド
-│   ├── api/          # FastAPI バックエンド
-│   └── crawler/      # データ収集システム
+│   └── web/              # Next.js アプリ
 ├── libs/
-│   ├── core/         # 共通ロジック
-│   └── ui/           # UIコンポーネント
-├── data/             # データファイル
-├── docs/             # ドキュメント
-└── public/           # 静的ファイル
+│   ├── firebase/         # Firebase設定・ユーティリティ
+│   ├── ui/              # shadcn/ui コンポーネント
+│   └── types/           # TypeScript型定義
+├── docs/                # 技術文書
+├── data/               # サンプルデータ・スキーマ
+└── functions/          # Firebase Cloud Functions
 ```
-
-## 🎨 UI/UXデザイン
-
-### デザインコンセプト
-- **ファンタジー世界観**: 中世RPGの冒険者ギルド
-- **信頼性**: 遊び心がありながら情報の確実性を保証
-- **アクセシビリティ**: 全ての冒険者が利用しやすいデザイン
-
-### 参考イメージ
-- ゼルダの伝説風の探索感
-- ファイナルファンタジーのジョブシステム
-- ドラゴンクエストの冒険感
-
-## 📊 情報収集戦略
-
-### 1. 自動収集
-- 政府・大学の公募サイト
-- 企業の採用・コンテストページ
-- 国際機関の奨学金情報
-
-### 2. コミュニティ
-- ユーザー投稿による情報共有
-- 体験談・成功事例の収集
-- 専門家による情報検証
-
-### 3. パートナーシップ
-- 大学・研究機関との連携
-- 企業スポンサーシップ
-- 国際団体との協力
-
-## 💰 収益化戦略
-
-### 初期段階
-- **推薦書添削サービス**: 専門家による個別指導
-- **体験談投稿**: 成功者による有償執筆
-- **プレミアムコミュニティ**: 月額500円の会員制
-
-### 成長段階
-- **企業向け掲載料**: 優先表示・特集掲載
-- **マッチングサービス**: 人材と機会の仲介
-- **教育コンテンツ**: オンライン講座・ワークショップ
-
-## 🚀 開発ロードマップ
-
-### Phase 1: 基盤構築 (1-2ヶ月)
-- [ ] GitHub環境構築
-- [ ] 基本的なUI/UXデザイン
-- [ ] データベース設計
-- [ ] 初期クローラー開発
-
-### Phase 2: MVP開発 (2-3ヶ月)
-- [ ] 基本的な情報表示機能
-- [ ] ユーザー登録・認証
-- [ ] 検索・フィルタリング
-- [ ] モバイル対応
-
-### Phase 3: 機能拡張 (3-4ヶ月)
-- [ ] AIによる自動分類
-- [ ] レコメンド機能
-- [ ] SNS自動投稿
-- [ ] 多言語対応
-
-### Phase 4: コミュニティ (4-6ヶ月)
-- [ ] ユーザー投稿機能
-- [ ] コメント・評価システム
-- [ ] プレミアム機能
-- [ ] パートナーシップ
-
-## 🌐 国際展開
-
-### 対象地域
-- **アジア太平洋**: 日本、韓国、シンガポール、オーストラリア
-- **北米**: アメリカ、カナダ
-- **ヨーロッパ**: イギリス、ドイツ、フランス、北欧諸国
-
-### ローカライゼーション
-- 各国の教育制度に合わせた情報分類
-- 現地語でのコンテンツ提供
-- 文化的背景を考慮したUX設計
 
 ## 🤝 コントリビューション
 
-PrologueLabは、世界中の冒険者（開発者・デザイナー・研究者）からの貢献を歓迎します！
+### 歓迎する貢献
+1. **情報提供**: 新しい公募情報・イベント情報
+2. **UI/UX改善**: より使いやすいデザイン提案
+3. **データ収集**: 新しい情報源の提案・実装
+4. **SNS戦略**: 効果的な投稿方法の提案
 
-### 貢献方法
+### 開発参加方法
 1. Issues で機能提案・バグ報告
 2. Pull Requests でコード貢献
-3. ドキュメントの改善
-4. 情報提供・検証
+3. Discussions でアイデア共有
+
+詳細は [CONTRIBUTING.md](CONTRIBUTING.md) を参照
+
+## 📊 成功指標
+
+### Phase 1 (MVP) 目標
+- [ ] 月間ユーザー 1,000人
+- [ ] 掲載情報数 100件
+- [ ] SNSフォロワー 500人
+
+### Phase 2 (成長期) 目標
+- [ ] 月間ユーザー 10,000人
+- [ ] 掲載情報数 1,000件
+- [ ] SNSフォロワー 5,000人
 
 ## 📄 ライセンス
 
@@ -168,8 +229,17 @@ MIT License - 詳細は [LICENSE](LICENSE) ファイルを参照
 ## 📞 お問い合わせ
 
 - **GitHub Issues**: バグ報告・機能要望
-- **Discussions**: 一般的な質問・アイデア共有
+- **GitHub Discussions**: 一般的な質問・アイデア共有
+- **Twitter**: [@prologue_lab](https://twitter.com/prologue_lab) (予定)
 
 ---
 
-*🌟 あなたの冒険はここから始まる - PrologueLab で新しい挑戦を見つけよう！*
+## 🔗 参考・インスピレーション
+
+- [きっかけポータル](https://kikkakeportal.com/) - UI/UX参考
+- [Connpass](https://connpass.com/) - 勉強会情報API
+- [Spajam](https://spajam.jp/) - ハッカソン参考
+
+---
+
+*🌟 あなたの挑戦はここから始まる - PrologueLab で新しい機会を見つけよう！*
